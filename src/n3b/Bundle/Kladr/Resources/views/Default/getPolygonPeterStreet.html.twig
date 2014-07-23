@@ -1,0 +1,11 @@
+<table>
+    {% for street in streets %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ street.socr }}</td>
+            <td>
+                <a target="_blank" class="street_item" data-lng="{{ street.lng }}" data-lat="{{ street.lat }}" href="http://yandex.ru/yandsearch?text={{ street.title }}">{{ street.title }}</a>
+            </td>
+        </tr>
+    {%  endfor %}
+</table>

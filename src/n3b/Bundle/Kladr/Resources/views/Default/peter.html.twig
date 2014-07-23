@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+{% javascripts
+    '@n3bKladrBundle/Resources/public/js/jquery-1.5.js'
+    '@n3bKladrBundle/Resources/public/js/common.js'
+    '@n3bKladrBundle/Resources/public/js/frontend.js'
+    '@n3bKladrBundle/Resources/public/js/*' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    <script src="http://api-maps.yandex.ru/1.1/index.xml?key={{ ymaps_key }}"
+            type="text/javascript"></script>
+
+{% endjavascripts %}
+
+<script type="text/javascript">
+    supplier = new Object();
+    supplier.longitude  = 30.37;
+    supplier.latitude   = 59.93;
+    filterUrl = 'polygon/peter_street';
+</script>
+
+<div class="b-admin-radius">
+    <div class="b-admin-radius__section">
+        <div class="right_column" style="float:right;width: 250px;">
+            <div class="b-select">
+                <select name="supplier_delivery_radius[type]" id="supplier_delivery_radius_type">
+                    <option value="radius" selected="selected">Радиус</option>
+                    <option value="polygon">Многоугольник</option>
+                    <option value="addresses">Адреса</option>
+                </select>
+            </div>
+            <div class="street_filter">
+                <input class="street_name" value="" />
+                <select class="street_socr" name="street_socr" multiple="multiple">
+                    {% for socr in socr_arr %}
+                        <option value="{{ socr }}">{{ socr }}</option>
+                    {% endfor %}
+                </select>
+                <input type="checkbox" class="street_polygon" value="1">
+                <input class="object_filter" value="" />
+                <input type="hidden" class="object_res" value="" />
+            </div>
+            <div>
+                <input type="hidden" class="polygon-points" value="" />
+                <input class="show_street" name="show_street" type="button" value="Показать Улицы!" />
+            </div>
+            <div class="street_res">
+            </div>
+        </div>
+        <div class="map" style="position: fixed;width:1000px;height:650px"></div>
+    </div>
+</div>
+{% endblock %}
+{#
+{% extends 'CommonBundle:Default/admin:admin_index.html.twig' %}
+
+{% set admin = 'admin_address_group' %}
+{% set title = 'label.address_group.index' %}
+{% block thead %}
+    <tr>
+        <th>{{ 'label.id'|trans }}</th>
+        <th>{{ 'label.name'|trans }}</th>
+        <th>{{ 'label.actions'|trans }}</th>
+    </tr>
+{% endblock %}
+{% block custom_fields %}
+    <td>{{ entity }}</td>
+{% endblock %}#}
