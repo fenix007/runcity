@@ -5,9 +5,9 @@
     '@n3bKladrBundle/Resources/public/js/common.js'
     '@n3bKladrBundle/Resources/public/js/frontend.js'
     '@n3bKladrBundle/Resources/public/js/*' %}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
     <script src="http://api-maps.yandex.ru/1.1/index.xml?key={{ ymaps_key }}"
             type="text/javascript"></script>
+    <script type="text/javascript" src="{{ asset_url }}"></script>
 
 {% endjavascripts %}
 
@@ -21,7 +21,7 @@
 
 <div class="b-admin-radius">
     <div class="b-admin-radius__section">
-        <div class="right_column" style="float:right;width: 250px;">
+        <div class="right_column" style="float:right;width: 320px;">
             <div class="b-select">
                 <select name="supplier_delivery_radius[type]" id="supplier_delivery_radius_type">
                     <option value="radius" selected="selected">Радиус</option>
@@ -31,7 +31,7 @@
             </div>
             <div class="street_filter">
                 <input class="street_name" value="" />
-                <select class="street_socr" name="street_socr" multiple="multiple">
+                <select class="street_socr" style="height: 500px; right: 0px; position: absolute;" name="street_socr" multiple="multiple">
                     {% for socr in socr_arr %}
                         <option value="{{ socr }}">{{ socr }}</option>
                     {% endfor %}

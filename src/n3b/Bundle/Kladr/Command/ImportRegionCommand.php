@@ -36,7 +36,7 @@ EOT
         $this->truncate();
 
         $db_path = __DIR__ . '/../Resources/KLADR/KLADR.DBF';
-        $db = dbase_open($db_path, 0) or die("Error! Could not open dbase database file '$db_path'.");
+        $db = \dbase_open($db_path, 0) or die("Error! Could not open dbase database file '$db_path'.");
         $record_numbers = dbase_numrecords($db);
 
         $batchSize = $input->getOption('batch');

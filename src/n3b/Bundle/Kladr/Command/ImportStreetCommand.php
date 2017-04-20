@@ -28,7 +28,13 @@ EOT
         $output->writeln('<info>Started at ' . date('H:i:s') . '</info>');
         $em = $this->em = $this->getEntityManager('default');
 
-        $this->truncate();
+        //$this->truncate();
+        $street_repository = $this->getContainer()->get('doctrine')
+            ->getRepository('n3bKladrBundle:KladrStreet');
+        $numInDb = $street_repository->createQueryBuilder('ks')
+            ->select('COUNT(ks.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
 
         $db_path = __DIR__ . '/../Resources/KLADR/STREET.DBF';
         $db = dbase_open($db_path, 0) or die("Error! Could not open dbase database file '$db_path'.");
@@ -46,6 +52,9 @@ EOT
                 continue;
 
             $code = substr($code, 0, -2);
+            if ($street_repository->findOneById($code)) {
+                continue;
+            }
             $street->setId($code);
             $street->setParentCode(str_pad(substr($code, 0, -4), 20, '0', STR_PAD_RIGHT));
 

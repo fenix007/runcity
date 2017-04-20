@@ -38,33 +38,41 @@ EOT
                     array('title' => 'Москва', 'socr' => 'г')
         );
 
-        $street_repository = $this->getContainer()->get('doctrine')
-          ->getRepository('n3bKladrBundle:KladrStreet');
-        $moscow_streets = $street_repository->findBy(
-                    array('parentCode' => $moscow->getId())
+        $moscows = $region_repository->findBy(
+            array('fullParentTitle' => ', Москва г')
         );
+        array_unshift($moscows, $moscow);
 
-        $record_numbers = count($moscow_streets);
+        foreach($moscows as $moscow) {
+            $street_repository = $this->getContainer()->get('doctrine')
+                ->getRepository('n3bKladrBundle:KladrStreet');
 
-        $batchSize = $input->getOption('batch');
-        for ($i = 1; $i < $record_numbers; $i++) {
-            $moscow_street = $moscow_streets[$i];
+            $moscow_streets = $street_repository->findBy(
+                array('parentCode' => $moscow->getId())
+            );
 
-            $street = new MoscowStreet();
-            $street->setSocr($moscow_street->getSocr());
-            $street->setTitle($moscow_street->getTitle());
-            $street->setZip($moscow_street->getZip());
-            $street->setOcatd($moscow_street->getOcatd());
+            $record_numbers = count($moscow_streets);
 
-            $em->persist($street);
+            $batchSize = $input->getOption('batch');
+            for ($i = 1; $i < $record_numbers; $i++) {
+                $moscow_street = $moscow_streets[$i];
 
-            if (($i % $batchSize) == 0) {
-                $em->flush();
-                $em->clear();
-                $output->writeln('<info>Inserted '. $i. ' records</info>');
+                $street = new MoscowStreet();
+                $street->setSocr($moscow_street->getSocr());
+                $street->setTitle($moscow_street->getTitle());
+                $street->setZip($moscow_street->getZip());
+                $street->setOcatd($moscow_street->getOcatd());
+
+                $em->persist($street);
+
+                if (($i % $batchSize) == 0) {
+                    $em->flush();
+                    $em->clear();
+                    $output->writeln('<info>Inserted ' . $i . ' records</info>');
+                }
             }
+            $em->flush();
         }
-        $em->flush();
 
         $output->writeln('<info>Inserted '. $i. ' records</info>');
         $output->writeln('<info>Success</info>');

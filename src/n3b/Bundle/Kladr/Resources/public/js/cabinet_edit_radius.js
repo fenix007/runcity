@@ -284,8 +284,21 @@ radiusRow.prototype.onEditAddressesLinkClick = function(link){
 	});
 
 	return false;
-}
+};
+radiusRow.prototype.drag = function(point) {
+	var points = this.polygon.getPoints();
+	var deltaLng = point.getGeoPoint().getLng() - supplier.longitude;
+	var deltaLat = point.getGeoPoint().getLat() - supplier.latitude;
+	for (var i = 0; i < points.length; i++) {
+		points[i].setLng(points[i].getLng() + deltaLng);
+		points[i].setLat(points[i].getLat() + deltaLat);
+	}
+	supplier.longitude = point.getGeoPoint().getLng();
+	supplier.latitude  = point.getGeoPoint().getLat();
+	this.polygon.setPoints(points);
+};
 radiusRow.prototype.showSupplierMark = function(){
+	var _this = this;
 	this.supplierMark = new YMaps.Placemark(new YMaps.GeoPoint(supplier.longitude, supplier.latitude), {
 		style : {
 			iconStyle : {
@@ -294,9 +307,12 @@ radiusRow.prototype.showSupplierMark = function(){
 				offset : new YMaps.Point(-9, -9)
 			}
 		},
-		draggable : false,
+		draggable : true,
 		hasBalloon : false
 		//hasHint : true
+	});
+	YMaps.Events.observe(this.supplierMark, this.supplierMark.Events.Drag, function (obj) {
+		_this.drag(obj);
 	});
 	this.map.addOverlay(this.supplierMark);
 }
@@ -351,7 +367,7 @@ radiusRow.prototype.showPolygon = function(){
 		new YMaps.GeoPoint(parseFloat(supplier.longitude)+distance, parseFloat(supplier.latitude)-distance/1.5)
 		];
 	}
-console.log(points)
+console.log(points);
 	// Создание многоугольника и добавление его на карту
 	this.polygon = new YMaps.Polygon(points, {style: "polygon#Example", 'draggable': true});
 	this.map.addOverlay(this.polygon);

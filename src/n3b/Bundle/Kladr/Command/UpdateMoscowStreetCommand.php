@@ -32,15 +32,13 @@ EOT
 
         $street_repository = $this->getContainer()->get('doctrine')
           ->getRepository('n3bKladrBundle:MoscowStreet');
-        $moscow_streets = $street_repository->findAll();
+        $moscow_streets = $street_repository->findBy(['lng' => null]);
 
         $YMaps= $this->getContainer()->get('ymaps_service');
 
         $record_numbers = count($moscow_streets);
 
-        $record_numbers = count($moscow_streets);
-
-        $batchSize = 4000;$input->getOption('batch');
+        $batchSize = 1000;$input->getOption('batch');
         for ($i = 1; $i < $record_numbers; $i++) {
             $moscow_street = $moscow_streets[$i];
             if(!$moscow_street->getLng())
@@ -48,7 +46,7 @@ EOT
                 $points = $YMaps->getCoordsFromAddress('г Москва, ' .
                     $moscow_street->getSocr() . ' ' . $moscow_street->getTitle(),
                     array('street'));
-
+var_dump($i);
                 $moscow_street->setLng($points['lng']);
                 $moscow_street->setLat($points['lat']);
 

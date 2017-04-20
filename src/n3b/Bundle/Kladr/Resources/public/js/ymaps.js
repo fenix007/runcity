@@ -9,10 +9,10 @@ $(function(){
 			var container = $(this);
 			var center = new YMaps.GeoPoint(container.data('lng'), container.data('lat'));
             map.setCenter(center, 15);
-			var placemark = new YMaps.Placemark(center);
+			var placemark = new YMaps.Placemark(center, {'draggable': true});
 			placemark.name = container.data('name');
 			placemark.description = container.data('description');
-            map.addOverlay(placemark);
+            //map.addOverlay(placemark);
 
 	})          
 
