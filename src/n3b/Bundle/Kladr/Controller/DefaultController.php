@@ -11,6 +11,7 @@ namespace n3b\Bundle\Kladr\Controller;
 
 use Exception;
 
+use n3b\Bundle\Kladr\Service\Street;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,36 +34,7 @@ class DefaultController extends Controller
     public function moscowAction()
     {
       $ymaps_key = $this->container->getParameter('ymaps_key');
-      $socr_arr = array(
-          '',
-          'ул',
-          'просек',
-          'проезд',
-          'пр-кт',
-          'б-р',
-          'ш',
-          'пер',
-          'д',
-          'аллея',
-          'кв-л',
-          'туп',
-          'наб',
-          'пл',
-          'линия',
-          'нп',
-          'мкр',
-          'просека',
-          'городок',
-          'платф',
-          'тер',
-          'км',
-          'ст',
-          'парк',
-          'снт',
-          'дор',
-          'п',
-          'проселок'
-      );
+      $socr_arr = Street::SOCR;
      // var_dump($ymaps_key);exit;
 
       return array('ymaps_key'=>$ymaps_key, 'socr_arr' => $socr_arr);
@@ -110,40 +82,11 @@ class DefaultController extends Controller
 
     public function peterAction()
     {
-      $ymaps_key = $this->container->getParameter('ymaps_key');
-      $socr_arr = array(
-          '',
-          'ул',
-          'просек',
-          'проезд',
-          'пр-кт',
-          'б-р',
-          'ш',
-          'пер',
-          'д',
-          'аллея',
-          'кв-л',
-          'туп',
-          'наб',
-          'пл',
-          'линия',
-          'нп',
-          'мкр',
-          'просека',
-          'городок',
-          'платф',
-          'тер',
-          'км',
-          'ст',
-          'парк',
-          'снт',
-          'дор',
-          'п',
-          'проселок'
-      );
+        $ymaps_key = $this->container->getParameter('ymaps_key');
+        $socr_arr = Street::SOCR;
      // var_dump($ymaps_key);exit;
-
-      return array('ymaps_key'=>$ymaps_key, 'socr_arr' => $socr_arr);
+        
+        return array('ymaps_key'=>$ymaps_key, 'socr_arr' => $socr_arr);
     }
 
     /**
