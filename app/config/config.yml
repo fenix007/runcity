@@ -1,7 +1,7 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
-    - { resource: @n3bKladrBundle/Resources/config/parameters.yml }
+    - { resource: "@n3bKladrBundle/Resources/config/parameters.yml" }
 
 framework:
     #esi:             ~
@@ -73,6 +73,9 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: Acme\UserBundle\Entity\User
+    from_email:
+        address: "%mailer_user%"
+        sender_name: "%mailer_user%"
 
 doctrine_migrations:
     dir_name: %kernel.root_dir%/DoctrineMigrations

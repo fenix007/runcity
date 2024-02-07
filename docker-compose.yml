@@ -1,0 +1,66 @@
+version: '3'
+services:
+  runcity_db:
+    image: mysql:8.3
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'runcity'
+      # So you don't have to use root, but you can if you like
+      MYSQL_USER: 'runcity'
+      # You can use whatever password you like
+      MYSQL_PASSWORD: 'runcity'
+      # Password for root access
+      MYSQL_ROOT_PASSWORD: 'runcity_root'
+    ports:
+      # <Port exposed> : <MySQL Port running inside container>
+      - '3306:3306'
+    expose:
+      # Opens port 3306 on the container
+      - '3306'
+      # Where our data will be persisted
+    volumes:
+      - runcity_db_data:/var/lib/mysql
+
+  runcity_fpm:
+    container_name: runcity_fpm
+    build:
+      context: .
+      dockerfile: ./docker/php-fpm/Dockerfile
+      args:
+        WORKING_DIR: ${WORKING_DIR}
+        PHP_XDEBUG_MODE: ${PHP_XDEBUG_MODE}
+        PHP_XDEBUG_CLIENT_PORT: ${PHP_XDEBUG_CLIENT_PORT}
+        PHP_XDEBUG_CLIENT_HOST: ${PHP_XDEBUG_CLIENT_HOST}
+        SYMFONY_CLI_VERSION: 4.28.1
+    ports:
+      - "${PHP_PORT}:9000"
+    environment:
+      - APP_ENV=${APP_ENV}
+      - APP_SECRET=${APP_SECRET}
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@runcity_db:5432/${POSTGRES_DATABASE}
+      - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
+    volumes:
+      - ./:${WORKING_DIR}
+      - ./var/log/symfony:${WORKING_DIR}/var/log
+      - ./var/log/php-fpm:/var/log/php-fpm
+      - ~/.ssh:/root/.ssh
+      - ./docker/etc/cron.d:/etc/cron.d
+      - ./var/log/cron:/var/log/cron
+    working_dir: ${WORKING_DIR}
+    depends_on:
+      - runcity_db
+
+  runcity_nginx:
+    container_name: runcity_nginx
+    image: nginx:latest
+    ports:
+      - "${NGINX_PORT}:80"
+    volumes:
+      - ./:${WORKING_DIR}
+      - ./docker/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+      - ./var/log/nginx:/var/log/nginx
+    depends_on:
+      - runcity_fpm
+
+volumes:
+  runcity_db_data:

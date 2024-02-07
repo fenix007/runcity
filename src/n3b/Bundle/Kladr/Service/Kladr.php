@@ -2,15 +2,16 @@
 
 namespace n3b\Bundle\Kladr\Service;
 
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
-use n3b\Bundle\Util\String;
 
 class Kladr
 {
     protected $em;
     protected $request;
 
-    public function __construct($em, $request)
+    public function __construct(EntityManagerInterface $em, $request)
     {
         $this->em = $em;
         $this->request = $request;

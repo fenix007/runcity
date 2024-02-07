@@ -5,5 +5,5 @@
 /vendor/*
 /app/bootstrap.php.cache
 /app/config/parameters.yml
-/composer.lock
+.env
 

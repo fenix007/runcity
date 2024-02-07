@@ -4,10 +4,10 @@ services:
   kladr:
     class:      n3b\Bundle\Kladr\Service\Kladr
     arguments:
-      em:       '@doctrine.orm.entity_manager'
-      request:  '@request'
+       - '@doctrine.orm.entity_manager'
+       - '@request'
 
   ymaps_service:
      class:      n3b\Bundle\Kladr\Service\YMaps
      arguments:
-        - @service_container
+        - '@service_container'
