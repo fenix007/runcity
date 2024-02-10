@@ -19,3 +19,8 @@ mysql -u<user> -p<pass> <dbname> < KladrStreet.sql
 php app/console kladr:import:moscow_street
 php app/console kladr:update:moscow_street
 ```
+
+```bash
+cp .env.example .env
+docker-compose up -d
+```
