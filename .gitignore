@@ -5,5 +5,8 @@
 /vendor/*
 /app/bootstrap.php.cache
 /app/config/parameters.yml
+/var/log/nginx/*
+/var/log/symfony/*
+/var/log/php-fpm/*
 .env
 

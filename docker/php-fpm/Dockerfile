@@ -14,6 +14,9 @@ RUN set -ex \
     && docker-php-ext-install -j$(nproc) intl \
     && apk del icu-dev
 
+RUN docker-php-ext-install -j$(nproc) mysql pdo pdo_mysql \
+    && apk --no-cache add mysql-client bash mariadb-connector-c
+
 ENV TZ=Europe/Moscow
 
 ARG PHP_IDE_CONFIG=host.docker.internal
@@ -34,7 +37,12 @@ COPY ./docker/php-fpm/conf.d/symfony.ini /etc/php56/conf.d/
 COPY ./docker/php-fpm/conf.d/symfony.ini /etc/php56/cli/conf.d/
 COPY ./docker/php-fpm/conf.d/symfony.ini /usr/local/etc/php/conf.d/
 COPY ./docker/php-fpm/php-fpm.d/symfony.pool.conf /etc/php56/php-fpm.d/
-
+COPY ./docker/php-fpm/php-fpm.d/www.conf /etc/php56/php-fpm.d/
+#COPY ./docker/php-fpm/conf.d/symfony.pool.conf /etc/php56/cli/conf.d/
+#COPY ./docker/php-fpm/conf.d/symfony.pool.conf /usr/local/etc/php/conf.d/
+#COPY ./docker/php-fpm/conf.d/www.conf /etc/php56/conf.d/
+#COPY ./docker/php-fpm/conf.d/www.conf /etc/php56/cli/conf.d/
+#COPY ./docker/php-fpm/conf.d/www.conf /usr/local/etc/php/conf.d/
 
 ARG WORKING_DIR
 
