@@ -38,11 +38,9 @@ COPY ./docker/php-fpm/conf.d/symfony.ini /etc/php56/cli/conf.d/
 COPY ./docker/php-fpm/conf.d/symfony.ini /usr/local/etc/php/conf.d/
 COPY ./docker/php-fpm/php-fpm.d/symfony.pool.conf /etc/php56/php-fpm.d/
 COPY ./docker/php-fpm/php-fpm.d/www.conf /etc/php56/php-fpm.d/
-#COPY ./docker/php-fpm/conf.d/symfony.pool.conf /etc/php56/cli/conf.d/
-#COPY ./docker/php-fpm/conf.d/symfony.pool.conf /usr/local/etc/php/conf.d/
-#COPY ./docker/php-fpm/conf.d/www.conf /etc/php56/conf.d/
-#COPY ./docker/php-fpm/conf.d/www.conf /etc/php56/cli/conf.d/
-#COPY ./docker/php-fpm/conf.d/www.conf /usr/local/etc/php/conf.d/
+#COPY ./docker/php-fpm/php-fpm.d/symfony.pool.conf /etc/php56/cli/conf.d/
+#COPY ./docker/php-fpm/php-fpm.d/symfony.pool.conf /usr/local/etc/php/conf.d/
+COPY ./docker/php-fpm/php-fpm.d/www.conf /usr/local/etc/php-fpm.d
 
 ARG WORKING_DIR
 
