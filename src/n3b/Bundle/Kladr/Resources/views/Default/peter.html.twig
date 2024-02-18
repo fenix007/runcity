@@ -23,8 +23,8 @@
         <div class="right_column" style="float:right;width: 250px;">
             <div class="b-select">
                 <select name="supplier_delivery_radius[type]" id="supplier_delivery_radius_type">
-                    <option value="radius" selected="selected">Радиус</option>
-                    <option value="polygon">Многоугольник</option>
+                    <option value="radius">Радиус</option>
+                    <option value="polygon" selected="selected">Многоугольник</option>
                     <option value="addresses">Адреса</option>
                 </select>
             </div>
@@ -46,7 +46,7 @@
             <div class="street_res">
             </div>
         </div>
-        <div class="map" style="position: fixed;width:1000px;height:650px"></div>
+        <div class="map" style="position: fixed;width:{{ map_width }};height:{{ map_height }}"></div>
     </div>
 </div>
 {% endblock %}

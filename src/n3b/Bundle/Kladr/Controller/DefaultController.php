@@ -33,11 +33,15 @@ class DefaultController extends Controller
 
     public function moscowAction()
     {
-      $ymaps_key = $this->container->getParameter('ymaps_key');
-      $socr_arr = Street::SOCR;
-     // var_dump($ymaps_key);exit;
+        $ymaps_key = $this->container->getParameter('ymaps_key');
+        $socr_arr = Street::SOCR;
 
-      return array('ymaps_key'=>$ymaps_key, 'socr_arr' => $socr_arr);
+        return [
+            'ymaps_key' => $ymaps_key,
+            'socr_arr' => $socr_arr,
+            'map_width' => $this->getParameter('map_width'),
+            'map_height' => $this->getParameter('map_height')
+        ];
     }
 
     /**
@@ -47,30 +51,28 @@ class DefaultController extends Controller
      * @Template()
      */
 
-    public function getPolygonStreetAction(Request  $request)
+    public function getPolygonStreetAction(Request $request)
     {
-      $street_points    = $request->request->get('street_points');
-      $points_check     = $request->request->get('points_check') !== 'false' ? true : false;
-      $street_name      = $request->request->get('street_name');
-      $object_filter     = $request->request->get('object_filter');
-      $street_socr      = $request->request->get('street_socr') !== 'null' ? $request->request->get('street_socr')  : false;
+        $street_points = $request->request->get('street_points');
+        $points_check = $request->request->get('points_check') !== 'false' ? true : false;
+        $street_name = $request->request->get('street_name');
+        $object_filter = $request->request->get('object_filter');
+        $street_socr = $request->request->get('street_socr') !== 'null' ? $request->request->get('street_socr') : false;
 
         $pp_ar = array();
-      if($street_points && $points_check)
-      {
-        $pp_ar = json_decode($street_points);
-      }
+        if ($street_points && $points_check) {
+            $pp_ar = json_decode($street_points);
+        }
 
-      if(count($street_socr) === 1 && !strlen($street_socr[0]))
-      {
-          $street_socr = false;
-      }
+        if (count($street_socr) === 1 && !strlen($street_socr[0])) {
+            $street_socr = false;
+        }
 
-      $YMaps = $this->container->get('ymaps_service');
+        $YMaps = $this->container->get('ymaps_service');
 
-      $streets = $YMaps->moscowFilter($street_name, $street_socr, $pp_ar);
+        $streets = $YMaps->moscowFilter($street_name, $street_socr, $pp_ar);
 
-      return array('streets'=>$streets);
+        return array('streets' => $streets);
     }
 
     /**
@@ -84,9 +86,13 @@ class DefaultController extends Controller
     {
         $ymaps_key = $this->container->getParameter('ymaps_key');
         $socr_arr = Street::SOCR;
-     // var_dump($ymaps_key);exit;
-        
-        return array('ymaps_key'=>$ymaps_key, 'socr_arr' => $socr_arr);
+
+        return [
+            'ymaps_key' => $ymaps_key,
+            'socr_arr' => $socr_arr,
+            'map_width' => $this->getParameter('map_width'),
+            'map_height' => $this->getParameter('map_height')
+        ];
     }
 
     /**
@@ -96,30 +102,28 @@ class DefaultController extends Controller
      * @Template()
      */
 
-    public function getPolygonPeterStreetAction(Request  $request)
+    public function getPolygonPeterStreetAction(Request $request)
     {
-      $street_points    = $request->request->get('street_points');
-      $points_check     = $request->request->get('points_check') !== 'false' ? true : false;
-      $street_name      = $request->request->get('street_name');
-      $object_filter     = $request->request->get('object_filter');
-      $street_socr      = $request->request->get('street_socr') !== 'null' ? $request->request->get('street_socr')  : false;
+        $street_points = $request->request->get('street_points');
+        $points_check = $request->request->get('points_check') !== 'false' ? true : false;
+        $street_name = $request->request->get('street_name');
+        $object_filter = $request->request->get('object_filter');
+        $street_socr = $request->request->get('street_socr') !== 'null' ? $request->request->get('street_socr') : false;
 
         $pp_ar = array();
-      if($street_points && $points_check)
-      {
-        $pp_ar = json_decode($street_points);
-      }
+        if ($street_points && $points_check) {
+            $pp_ar = json_decode($street_points);
+        }
 
-      if(count($street_socr) === 1 && !strlen($street_socr[0]))
-      {
-          $street_socr = false;
-      }
+        if (count($street_socr) === 1 && !strlen($street_socr[0])) {
+            $street_socr = false;
+        }
 
-      $YMaps = $this->container->get('ymaps_service');
+        $YMaps = $this->container->get('ymaps_service');
 
-      $streets = $YMaps->peterFilter($street_name, $street_socr, $pp_ar);
+        $streets = $YMaps->peterFilter($street_name, $street_socr, $pp_ar);
 
-      return array('streets'=>$streets);
+        return array('streets' => $streets);
     }
 
     /**
@@ -131,9 +135,9 @@ class DefaultController extends Controller
 
     public function indexAction()
     {
-      $ymaps_key = $this->container->getParameter('ymaps_key');
-     // var_dump($ymaps_key);exit;
+        $ymaps_key = $this->container->getParameter('ymaps_key');
+        // var_dump($ymaps_key);exit;
 
-      return array('ymaps_key'=>$ymaps_key);
+        return array('ymaps_key' => $ymaps_key);
     }
 }

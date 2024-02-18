@@ -231,10 +231,6 @@ radiusRow.prototype.initForm = function(){
 	this.map.addControl(new YMaps.SmallZoom());
 	this.map.addControl(new YMaps.ToolBar());
 
-	this.getRadiusInput().change(function(e){
-		_this.onRadiusChange();
-	})
-
 	this.body.find('.b-input-number .b-icon_minus, .b-input-number .b-icon_plus').click(function(e){
 		_this.onRadiusChange();
 	})
@@ -331,7 +327,7 @@ radiusRow.prototype.showRadius = function(){
     });
     this.map.addOverlay(this.circle);
 	this.map.setCenter(centerPoint);
-	this.setRadius(this.getRadiusInput().val());
+	this.setRadius(10);
 }
 radiusRow.prototype.hideRadius = function(){
 	this.map.removeOverlay(this.circle);
@@ -421,7 +417,7 @@ radiusRow.prototype.hidePolygon = function(){
 	this.map.removeOverlay(this.polygon);
 }
 radiusRow.prototype.getTypeSelect = function(){
-	return this.getFormContainer().find('.type select');
+	return this.getFormContainer().find('#supplier_delivery_radius_type');
 }
 radiusRow.prototype.getRadius = function(){
 	return this.getFormContainer().find('.radius');
@@ -454,12 +450,9 @@ radiusRow.prototype.onMinAmountChange = function(){
 radiusRow.prototype.getMinAmountInput = function(){
 	return this.getFormContainer().find('.min-amount input');
 };
-radiusRow.prototype.getRadiusInput = function(){
-	return this.body.find('.b-input-number input');
-}
 
 radiusRow.prototype.onRadiusChange = function(){
-	this.setRadius(this.getRadiusInput().val());
+	this.setRadius(1);
 }
 
 radiusRow.prototype.setRadius = function(radius) {
@@ -479,34 +472,6 @@ radiusRow.prototype.setRadius = function(radius) {
 	this.map.setZoom(zoom, {'smooth':true});
 }
 
-radiusRow.prototype.openForm = function(){
-	this.getFormContainer().show();
-	this.loadForm();
-}
-radiusRow.prototype.loadForm = function(){
-	var _this = this;
-	this.getFormContainer().load(
-		baseUrl+'cabinet/editRadius/id/'+this.getId(),
-		function(){_this.initForm();}
-	);
-
-}
-radiusRow.prototype.onTitleClick = function(e){
-	var el = $(e.currentTarget)
-	el.children('i').toggleClass('b-icon_toggle_act');
-	
-	var sectionBody = el.closest('div.b-admin-radius__section').children('div.b-admin-radius__section__body');
-	sectionBody.toggle();
-
-	if (this.getFormContainer().is(':visible')) {
-console.log(1)
-		this.loadForm();
-	} else {
-console.log(2)
-		this.showHeaderInfo(true);
-	}
-	return false;
-}
 radiusRow.prototype.getTitleTag = function(){
 	return this.body.find('h3.title');
 }
@@ -550,7 +515,6 @@ radiusList.prototype.init = function(){
 	this.body.find('.b-admin-radius__section').each(function(){
 		var radius = new radiusRow($(this));
 		if ($(this).data('id') == radiusToOpen) {
-			radius.openForm();
 			$(this).find('.b-icon_toggle').addClass('b-icon_toggle_act');
 		}
         radius.initForm(this.body);
