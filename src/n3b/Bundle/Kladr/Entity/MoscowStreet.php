@@ -42,6 +42,15 @@ Class MoscowStreet
    */
   private $lat;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $mosopen_id;
+
+    /**
+     * @ORM\OneToMany(targetEntity="MoscowHouse", mappedBy="moscowStreet")
+     **/
+    private $houses;
 
   /**
      * Set id
@@ -199,4 +208,24 @@ Class MoscowStreet
   {
     $this->lat = $lat;
   }
+
+    public function getMosopenId()
+    {
+        return $this->mosopen_id;
+    }
+
+    public function setMosopenId($mosopen_id)
+    {
+        $this->mosopen_id = $mosopen_id;
+    }
+
+    public function getHouses()
+    {
+        return $this->houses;
+    }
+
+    public function setHouses($houses)
+    {
+        $this->houses = $houses;
+    }
 }

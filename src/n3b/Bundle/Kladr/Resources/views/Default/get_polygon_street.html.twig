@@ -5,6 +5,7 @@
             <td>{{ street.socr }}</td>
             <td>
                 <a target="_blank" class="street_item" data-lng="{{ street.lng }}" data-lat="{{ street.lat }}" href="http://yandex.ru/yandsearch?text={{ street.title }}">{{ street.title }}</a>
+                <a target="_blank" href="http://mosopen.ru/street/{{ street.mosopenId }}">mosopen</a>
             </td>
         </tr>
     {%  endfor %}

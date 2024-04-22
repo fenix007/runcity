@@ -44,21 +44,49 @@ class Street
     
     const SOCR_REPLACES = [
         'б-р' => [
+            'бульвар',
             'бульв'
+        ],
+        'наб' => [
+            'набережная'
         ],
         'ш' => [
             'шоссе'
         ],
         'пр-кт' => [
+            'проспект',
             'просп'
+        ],
+        'ул' => [
+            'улица'
+        ],
+        'пл' => [
+            'площадь'
+        ],
+        'пер' => [
+            'переулок'
+        ],
+        'туп' => [
+            'тупик'
         ]
+    ];
+
+    const REPLACEMENTS = [
+        'Большой' => 'Б.',
+        'Большая' => 'Б.',
+        'Малый' => 'М.',
+        'Малая' => 'М.',
+        'Нижний' => 'Нижн.',
+        'Нижняя' => 'Нижн.',
+        'Верхний' => 'Верхн.',
+        'Верхняя' => 'Верхн.',
     ];
     
     public static function parseStreetName($streetName)
     {
         $streetInfo = [
             'title' => '',
-            'socr' => ''
+            'socr' => 'ул'
         ];
         
         $streetName = str_replace(['.', '.'], '', $streetName);
@@ -74,8 +102,16 @@ class Street
                 $streetInfo['title'] .= $streetPart . ' ';
             }
         }
-        
-        $streetInfo['title'] = trim($streetInfo['title']);
+
+        $title = trim($streetInfo['title']);
+
+        foreach (self::REPLACEMENTS as $from => $to) {
+            if (strpos($title, $from) !== false) {
+                $title = trim(str_replace($title, $from, '')) . ' ' . $to;
+            }
+        }
+
+        $streetInfo['title'] = $title;
         
         return $streetInfo;
     }

@@ -72,6 +72,9 @@ radiusRow.prototype.init = function(){
     this.body.find('.street_socr').change(function(e){
         _this.getPolygonStreet(e);
     });
+	this.body.find('.street_house').change(function(e){
+		_this.getPolygonStreet(e);
+	});
     this.body.find('.street_polygon').click(function(e){
         _this.getPolygonStreet(e);
     });
@@ -81,6 +84,7 @@ radiusRow.prototype.getPolygonStreet = function(e){
     _this = this;
     var street_name     = this.body.find('.street_name').val();
     var street_socr     = this.body.find('.street_socr').val();
+    var street_house    = this.body.find('.street_house').val();
     var street_points   = this.body.find('.polygon-points').val();
     var points_check    = this.body.find('.street_polygon').is(':checked');
     var object_filter   = this.body.find('.object_filter').val();
@@ -90,6 +94,7 @@ radiusRow.prototype.getPolygonStreet = function(e){
         'data': {
             'street_name'   : street_name,
             'street_socr'   : street_socr,
+            'street_house'   : street_house,
             'points_check'  : points_check,
             'street_points' : street_points
         },

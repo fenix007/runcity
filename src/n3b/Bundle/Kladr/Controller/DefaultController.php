@@ -56,6 +56,7 @@ class DefaultController extends Controller
         $street_points = $request->request->get('street_points');
         $points_check = $request->request->get('points_check') !== 'false' ? true : false;
         $street_name = $request->request->get('street_name');
+        $street_house = $request->request->get('street_house');
         $object_filter = $request->request->get('object_filter');
         $street_socr = $request->request->get('street_socr') !== 'null' ? $request->request->get('street_socr') : false;
 
@@ -70,7 +71,7 @@ class DefaultController extends Controller
 
         $YMaps = $this->container->get('ymaps_service');
 
-        $streets = $YMaps->moscowFilter($street_name, $street_socr, $pp_ar);
+        $streets = $YMaps->moscowFilter($street_name, $street_socr, $street_house, $pp_ar);
 
         return array('streets' => $streets);
     }

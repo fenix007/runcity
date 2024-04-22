@@ -83,25 +83,31 @@ class YMaps
 		}
 	}
 
-    public function moscowFilter($street_name, $street_socr, $points)
+    public function moscowFilter($street_name, $street_socr, $street_house, $points)
     {
         $repository = $this->container->get('doctrine')
             ->getRepository('n3bKladrBundle:MoscowStreet');
 
         $query = $repository->createQueryBuilder('ms');
 
-        if($street_name)
+        if ($street_name)
         {
             $query->andWhere('ms.title LIKE :street_name')->setParameter('street_name', '%' . $street_name . '%');
         }
 
-        if($street_socr && count($street_socr))
+        if ($street_house) {
+            $query->leftJoin('ms.houses', 'mh')
+                ->andWhere('mh.title = :house')
+                ->setParameter('house', $street_house);
+        }
+
+        if ($street_socr && count($street_socr))
         {
             $impl_str_socr = $this->implodeStrAr($street_socr);
             $query->andWhere("ms.socr IN (" . $impl_str_socr . ")");
         }
 
-        if($points)
+        if ($points)
         {
             $bounds = $this->getPoligonBounds($points);
 
@@ -113,9 +119,8 @@ class YMaps
                     ->setParameter('max_lat', $bounds['max_lat']);
         }
         $query->orderBy('ms.title');
-//var_dump($query->getQuery()->getParameters()->toArray());
         $results = $query->getQuery()->getResult();
-
+//        var_dump($query->getQuery()->getSql()); exit;
         if($points)
         {
             foreach($results as $i => $result):
